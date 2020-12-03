@@ -1,0 +1,5 @@
+Tang Seng;The teacher
+Monekey King;The monkey
+Pigsy;The pig
+Sandy;The person
+White Dragon Horse;The horse

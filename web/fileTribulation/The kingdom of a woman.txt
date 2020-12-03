@@ -1,0 +1,8 @@
+Tang Seng;The teacher
+Monekey King;The monkey
+Pigsy;The pig
+Sandy;The person
+The queen;Who want to marry TangSeng
+The beauty1;Who want to eat TangSeng
+The beauty2;Who want to eat TangSeng
+The beauty3;Who want to eat TangSeng

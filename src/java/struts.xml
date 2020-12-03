@@ -1,0 +1,230 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- Configuration for the default package. -->
+    <constant name="struts.multipart.maxSize" value="1000000" />  
+    <package name="default" extends="struts-default" namespace="/">
+        <action name="login" class="hangntk.struts2.LoginAction">
+            <result name="admin">admin.jsp</result>
+            <result name="director">director.jsp</result>
+            <result name="cast" type="redirectAction">
+                <param name="actionName">loadCurrentTribu</param>
+            </result>
+            <result name="error">error.jsp</result>
+        </action>
+        <action name="logout" class="hangntk.struts2.LogoutAction">
+            <result name="success">login.html</result>
+        </action>
+        <action name="search" class="hangntk.struts2.SearchAction">
+            <result name="success">admin.jsp</result>
+            <result name="error">error.jsp</result>
+        </action>
+        <action name="deleteRecord" class="hangntk.struts2.DeleteRecordAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="done">${done}</param>
+            </result>
+            <result name="fail" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="notdone">${notdone}</param>
+            </result>
+        </action>
+        <action name="editRecord" class="hangntk.struts2.EditRecordAction">
+            <result name="success">update.jsp</result>
+            <result name="fail">error.jsp</result>
+        </action>
+        <action name="register" class="hangntk.struts2.RegisterAction">
+            <exception-mapping exception="java.sql.SQLException" result="input"/>
+            <result name="success">admin.jsp</result>
+            <result name="input">register.jsp</result>
+            <result name="fail">error.jsp</result>
+        </action>
+        <action name="update" class="hangntk.struts2.UpdateAction">
+            <exception-mapping exception="java.sql.SQLException" result="input"/>
+            <result name="success" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="done">${done}</param>
+            </result>
+            <result name="input" type="chain">
+                <param name="actionName">editRecord</param>
+            </result>
+            <result name="fail" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="notdone">${notdone}</param>
+            </result>
+        </action>
+        <action name="loadListDirector" class="hangntk.struts2.LoadListDirectorAction" >
+            <result name="regist">registerTribulation.jsp</result>
+        </action>
+        <action name="registerTribulation" class="hangntk.struts2.RegisterTribulationAction">
+            <exception-mapping exception="java.sql.SQLException" result="input"/>
+            <result name="success">admin.jsp</result>
+            <result name="fail">error.jsp</result>
+            <result name="input" type="chain">
+                <param name="actionName">loadListDirector</param>
+            </result>
+        </action>
+        <action name="registerProp" class="hangntk.struts2.RegisterPropAction">
+            <exception-mapping exception="java.sql.SQLException" result="input"/>
+            <result name="success">admin.jsp</result>
+            <result name="fail">error.jsp</result>
+            <result name="input">registerProp.jsp</result>
+        </action>
+        <action name="downFile" class="hangntk.struts2.DownFileAction">
+            <result name="success" type="stream">
+                <param name="contentType">text/plain</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        <action name="deleteRecordTribulation" class="hangntk.struts2.DeleteTribuAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="done">${done}</param>
+            </result>
+            <result name="fail" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="notdone">${notdone}</param>
+            </result>
+        </action>    
+        <action name="editTribulation" class="hangntk.struts2.EditTribulationAction">
+            <result name="success" type="chain">
+                <param name="actionName">loadListDirectorUpdate</param>
+            </result>
+            <result name="fail">error.jsp</result>
+        </action>
+        <action name="loadListDirectorUpdate" class="hangntk.struts2.LoadListDirectorAction" method="displayUpdate">
+            <result name="update" >updateTribulation.jsp</result>
+        </action>
+        <action name="updateTribulation" class="hangntk.struts2.UpdateTribulationAction">
+            <exception-mapping exception="java.sql.SQLException" result="input"/>
+            <result name="success" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="done">${done}</param>
+            </result>
+            <result name="fail" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="notdone">${notdone}</param>
+            </result>
+            <result name="input" type="chain">
+                <param name="actionName">editTribulation</param>
+            </result>
+        </action>
+        <action name="deleteRecordProp" class="hangntk.struts2.DeleteRecordPropAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="done">${done}</param>
+            </result>
+            <result name="fail" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="notdone">${notdone}</param>
+            </result>
+        </action>
+        <action name="editProp" class="hangntk.struts2.EditPropAction">
+            <result name="success">updateProp.jsp</result>
+            <result name="fail">error.jsp</result>
+        </action>
+        <action name="updateProp" class="hangntk.struts2.UpdatePropAction">
+            <exception-mapping exception="java.sql.SQLException" result="input"/>
+            <result name="success" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="done">${done}</param>
+            </result>
+            <result name="fail" type="redirectAction">
+                <param name="actionName">search</param>
+                <param name="searchValue">${lastSearchValue}</param>
+                <param name="kindOfSearch">${kindOfSearch}</param>
+                <param name="notdone">${notdone}</param>
+            </result>
+            <result name="input">updateProp.jsp</result>
+        </action>
+        <action name="loadListTribulationToAddCast" class="hangntk.struts2.LoadListTribulationAction">
+            <result name="addCast" >shoppingCart1.jsp</result>
+        </action>
+        <action name="loadListTribulationToAddProp" class="hangntk.struts2.LoadListTribulationAction" method="displayAddProp">
+            <result name="addProp" >shoppingCart2.jsp</result>
+        </action>
+        <action name="loadListPartandCast" class="hangntk.struts2.LoadListPartandCastAction">
+            <result name="none" >shoppingCart1.jsp</result>
+        </action>
+        <action name="addCastToPart" class="hangntk.struts2.AddCastToPartAction">
+            <result name="success">shoppingCart1.jsp</result>
+        </action>
+        <action name="deleteCastToPart" class="hangntk.struts2.DeleteCastToPartAction">
+            <result name="success">viewCart1.jsp</result>
+            <result name="error">error.jsp</result>
+        </action>
+        <action name="saveCart1" class="hangntk.struts2.SaveCart1Action">
+            <exception-mapping exception="java.sql.SQLException" result="error"/>
+            <result name="success">director.jsp</result>
+            <result name="error">error.jsp</result>
+        </action>
+        <action name="addMore" class="hangntk.struts2.LoadListTribulationAction">
+            <result name="addCast">shoppingCart1.jsp</result>
+        </action>
+        <action name="addPropToTribu" class="hangntk.struts2.AddPropToTribuAction">
+            <result name="success">shoppingCart2.jsp</result>
+            <result name="error">shoppingCart2.jsp</result>
+        </action>
+        <action name="deletePropToTribu" class="hangntk.struts2.DeletePropToTribuAction">
+            <result name="success">viewCart2.jsp</result>
+        </action>
+        <action name="addMoreProp" class="hangntk.struts2.LoadListTribulationAction" method="displayAddProp">
+            <result name="addProp">shoppingCart2.jsp</result>
+        </action>
+        <action name="saveCart2" class="hangntk.struts2.SaveCart2Action">
+            <exception-mapping exception="java.sql.SQLException" result="error"/>
+            <result name="success">director.jsp</result>
+            <result name="error">viewCart2.jsp</result>
+        </action>
+        <action name="statisticalProp" class="hangntk.struts2.StatisticalPropAction">
+            <result name="success">director.jsp</result>
+            <result name="error">error.jsp</result>
+            <result name="input">director.jsp</result>
+        </action>
+        <action name="statisticalPropStatus" class="hangntk.struts2.StatisticalPropStatusAction">
+            <result name="success">director.jsp</result>
+            <result name="error">error.jsp</result>
+        </action>
+        <action name="loadCurrentTribu" class="hangntk.struts2.LoadCurrentTribuAction">
+            <result name="success">cast.jsp</result>
+        </action>
+        <action name="showOldTribu" class="hangntk.struts2.ShowOldTribuAction">
+            <result name="success">viewOldTribu.jsp</result>
+        </action>
+        <action name="viewPart" class="hangntk.struts2.ViewPartAction">
+            <result name="success">viewPart.jsp</result>
+        </action>
+        <action name="loadNotiCast" class="hangntk.struts2.LoadNotiAction">
+            <result name="success">viewNotiCast.jsp</result>
+        </action>
+        <action name="loadNotiDirector" class="hangntk.struts2.LoadNotiAction">
+            <result name="success">viewNotiDirector.jsp</result>
+        </action>
+    </package>
+</struts>
